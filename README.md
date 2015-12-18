@@ -10,7 +10,7 @@ A simple scorekeeper that supports up to eight players. Fun facts:
 
 **Gold Standard:** Send a pull request.
 
-**Honrable Mention:** Open an issue.
+**Honorable Mention:** Open an issue.
 
 In case you were wondering, I have no intentions of projectifying this with a
 proper folder structure or build process or anything. I built it in Codepen for
