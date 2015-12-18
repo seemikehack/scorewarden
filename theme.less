@@ -1,0 +1,64 @@
+body {
+  background-color: #efefef;
+  padding-top: 85px;
+}
+.keyboardShortcuts {
+  width: 50%;
+  margin: 0 auto;
+  td:first-child {
+    text-align: center;
+  }
+}
+.template {
+  display: none;
+}
+.player {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 10px;
+  width: 250px;
+  height: 350px;
+  text-align: center;
+  &.panel.selected {
+    box-shadow: 0 2px 6px 1px rgba(72,150,174,0.7);
+  }
+  .addPlayer {
+    position: relative;
+    top: 140px; // FIXME so hacky
+    color: #ddd;
+    &:hover {
+      color: #c9c9c9;
+      cursor: pointer;
+    }
+  }
+  .removePlayer {
+    position: absolute;
+    top: 7px;
+    right: 5px;
+    color: #999;
+    cursor: pointer;
+  }
+  .name {
+    margin: 25px 10px 10px;
+    &:empty:not(:focus):before {
+      // emulate placeholder text
+      color: #ddd;
+      content: attr(data-ph);
+    }
+    font-size: 30px;
+  }
+  .score {
+    margin: 10px;
+    font-size: 72px;
+  }
+  .buttons {
+    .rankGroup {
+      display: inline-block;
+      margin: 0 5px;
+      .rank {
+        font-size: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ScoreWarden</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/paper/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet/less" type="text/css" href="./theme.less">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <i class="fa fa-bars fa-lg"></i>
+        </button>
+        <span class="navbar-brand">ScoreWarden</span>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a id="about" href="#" data-toggle="modal" data-target="#aboutModal"><i class="fa fa-question-circle fa-lg"></i></a></li>
+          <li><a id="reset" href="#" data-toggle="modal" data-target="#resetModal"><i class="fa fa-trash-o fa-lg"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="scoreboard container"></div>
+
+  <div id="playerTemplate" class="template">
+    <div class="name" contentEditable="true" data-ph="Name"></div>
+    <div class="score" contentEditable="true">0</div>
+    <div class="buttons">
+      <div class="rankGroup" data-rankvalue="1">
+        <div class="rankButton"><button id="1up" class="btn btn-default"><i class="fa fa-chevron-up"></i></button></div>
+        <div class="rank">1</div>
+        <div class="rankButton"><button id="1dn" class="btn btn-default down"><i class="fa fa-chevron-down"></i></button></div>
+      </div>
+      <div class="rankGroup" data-rankvalue="5">
+        <div class="rankButton"><button id="5up" class="btn btn-default"><i class="fa fa-chevron-up"></i></button></div>
+        <div class="rank">5</div>
+        <div class="rankButton"><button id="5dn" class="btn btn-default down"><i class="fa fa-chevron-down"></i></button></div>
+      </div>
+      <div class="rankGroup" data-rankvalue="20">
+        <div class="rankButton"><button id="20up" class="btn btn-default"><i class="fa fa-chevron-up"></i></button></div>
+        <div class="rank">20</div>
+        <div class="rankButton"><button id="20dn" class="btn btn-default down"><i class="fa fa-chevron-down"></i></button></div>
+      </div>
+    </div>
+    <i class="removePlayer fa fa-times-circle fa-lg"></i>
+  </div>
+
+  <div id="addPlayerTemplate" class="template">
+    <i class="addPlayer fa fa-user-plus fa-5x"></i>
+  </div>
+
+  <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="aboutModalLabel">About ScoreWarden</h4>
+        </div>
+        <div class="modal-body">
+          <p class="lead">ScoreWarden is a simple scorekeeper for all sorts of games.</p>
+          <p>It can track up to eight players. You can also use the following keyboard shortcuts to update scores for each of the eight players:</p>
+          <table class="table table-bordered keyboardShortcuts">
+            <tr>
+              <td>1-8</td>
+              <td>Select player one through eight</td>
+            </tr>
+            <tr>
+              <td>Q/A</td>
+              <td>Increment/decrement score by 1</td>
+            </tr>
+            <tr>
+              <td>W/S</td>
+              <td>Increment/decrement score by 5</td>
+            </tr>
+            <tr>
+              <td>E/D</td>
+              <td>Increment/decrement score by 20</td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">OK!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="resetModalLabel">Reset Scoreboard</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to reset the scoreboard?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button id="confirmReset" type="button" class="btn btn-danger" data-dismiss="modal">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
