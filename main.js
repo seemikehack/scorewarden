@@ -12,6 +12,7 @@ var PlayerView = Backbone.View.extend({
     'click .addPlayer' : 'addPlayer',
     'click .removePlayer' : 'removePlayer'
   },
+
   updateScore: function (e) {
     var btn = $(e.target).closest('button');
     if ($('.player.selected').length && !btn.closest('.player.selected').length)
@@ -22,6 +23,7 @@ var PlayerView = Backbone.View.extend({
     var score = +scoreBox.text() + value;
     scoreBox.text(isNaN(score) ? 0 : score);
   },
+
   addPlayer: function () {
     var newPlayerEl = new PlayerView({template: $('#playerTemplate').html()}).render().el;
     this.$el.before(newPlayerEl);
@@ -29,11 +31,13 @@ var PlayerView = Backbone.View.extend({
     if ($('.player').length > 8)
       this.$el.hide();
   },
+
   removePlayer: function () {
     this.remove();
     if ($('.player').length <= 8)
       $('#addPlayer').show();
   },
+
   render: function () {
     this.$el.html($(this.template));
     return this;
@@ -45,6 +49,12 @@ var Scoreboard = Backbone.View.extend({
   init: function () {
     this.$el.prepend(new PlayerView({id: 'addPlayer', template: $('#addPlayerTemplate').html()}).render().el);
   },
+
+  clearScores: function () {
+    // FIXME kind of hacky, but otherwise we'd have to extract player creation to up here
+    $('.score').text('0');
+  },
+
   reset: function () {
     this.$el.empty();
     this.init();
@@ -57,10 +67,12 @@ var Scoreboard = Backbone.View.extend({
 
 var sb = new Scoreboard();
 sb.init();
-$('#confirmReset').click(function (e) {
-  e.preventDefault();
+$('#confirmClear').click(function () {
+  sb.clearScores();
+});
+$('#confirmReset').click(function () {
   sb.reset();
-})
+});
 
 var selectedPlayer;
 function selectPlayer() {

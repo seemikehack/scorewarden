@@ -26,7 +26,16 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><a id="about" href="#" data-toggle="modal" data-target="#aboutModal"><i class="fa fa-question-circle fa-lg"></i></a></li>
-          <li><a id="reset" href="#" data-toggle="modal" data-target="#resetModal"><i class="fa fa-trash-o fa-lg"></i></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+              <i class="fa fa-trash-o fa-lg"></i>
+              <i class="fa fa-angle-down fa-lg"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a id="clear" href="#" data-toggle="modal" data-target="#clearModal"><i class="fa fa-eraser fa-lg"></i> Clear Scores</a></li>
+              <li><a id="reset" href="#" data-toggle="modal" data-target="#resetModal"><i class="fa fa-bomb fa-lg"></i> Reset Game</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>
@@ -96,6 +105,23 @@
     </div>
   </div>
 
+  <div class="modal fade" id="clearModal" tabindex="-1" role="dialog" aria-labelledby="clearModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="clearModalLabel">Clear Scores</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to clear scores? This does not end the current round or game, and all players will remain in the game.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button id="confirmClear" type="button" class="btn btn-danger" data-dismiss="modal">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -103,7 +129,7 @@
           <h4 class="modal-title" id="resetModalLabel">Reset Scoreboard</h4>
         </div>
         <div class="modal-body">
-          Are you sure you want to reset the scoreboard?
+          Are you sure you want to reset the scoreboard? This will not end the current round or game, but all players will be removed.
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
