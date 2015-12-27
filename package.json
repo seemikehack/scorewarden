@@ -1,0 +1,28 @@
+{
+  "name": "scorewarden",
+  "version": "1.0.0",
+  "description": "A simple scorekeeper that supports up to eight players",
+  "main": "local.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seemikehack/scorewarden.git"
+  },
+  "keywords": [
+    "game",
+    "score",
+    "scorekeeper",
+    "scoreboard"
+  ],
+  "author": "Michael Atkinson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seemikehack/scorewarden/issues"
+  },
+  "homepage": "https://github.com/seemikehack/scorewarden#readme",
+  "devDependencies": {
+    "express": "^4.13.3"
+  }
+}
