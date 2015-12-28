@@ -9,7 +9,6 @@ var PlayerView = Backbone.View.extend({
   className: 'player panel panel-default',
   events: {
     'click .rankButton > button' : 'updateScore',
-    'click .addPlayer' : 'addPlayer',
     'click .removePlayer' : 'removePlayer'
   },
 
@@ -22,14 +21,6 @@ var PlayerView = Backbone.View.extend({
     var scoreBox = this.$el.find('.score');
     var score = +scoreBox.text() + value;
     scoreBox.text(isNaN(score) ? 0 : score);
-  },
-
-  addPlayer: function () {
-    var newPlayerEl = new PlayerView({template: $('#playerTemplate').html()}).render().el;
-    this.$el.before(newPlayerEl);
-    $(newPlayerEl).find('.name').focus();
-    if ($('.player').length > 8)
-      this.$el.hide();
   },
 
   removePlayer: function () {
@@ -47,11 +38,29 @@ var PlayerView = Backbone.View.extend({
 var Scoreboard = Backbone.View.extend({
   el: '.scoreboard',
   init: function () {
-    this.$el.prepend(new PlayerView({id: 'addPlayer', template: $('#addPlayerTemplate').html()}).render().el);
+    var addPlayerEl = new PlayerView({id: 'addPlayer', template: $('#addPlayerTemplate').html()}).render().el;
+    this.$el.prepend(addPlayerEl);
+    this.$addPlayer = $(addPlayerEl);
+    this.players = {};
+  },
+
+  events: {
+    'click .addPlayer': 'addPlayer'
+  },
+
+  addPlayer: function () {
+    var playerView = new PlayerView({template: $('#playerTemplate').html()});
+    this.players[playerView.playerId] = playerView;
+    var newPlayerEl = playerView.render().el;
+    this.$addPlayer.before(newPlayerEl);
+    // $(newPlayerEl).find('.name').focus();
+    playerView.$el.find('.name').focus();
+    if ($('.player').length > 8)
+      this.$addPlayer.hide();
   },
 
   clearScores: function () {
-    // FIXME kind of hacky, but otherwise we'd have to extract player creation to up here
+    // FIXME kinda hacky, refactor to use stored player views
     $('.score').text('0');
   },
 
