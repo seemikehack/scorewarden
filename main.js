@@ -66,23 +66,36 @@ var PlayerView = Backbone.View.extend({
 
 var Scoreboard = Backbone.View.extend({
   el: '.scoreboard',
-  init: function () {
+  init: function (gameData) {
     var addPlayerEl = new PlayerView({id: 'addPlayer', template: $('#addPlayerTemplate').html()}).render().el;
     this.$el.prepend(addPlayerEl);
     this.$addPlayer = $(addPlayerEl);
     this.players = [];
+    // FIXME eventually game data will include more than just player data
+    gameData.forEach(function (player) {
+      // TODO perfect use case for a Backbone Model
+      // FIXME what about sorting?
+      this.addPlayer(player.playerName, player.score);
+    }.bind(this));
   },
 
   events: {
     'click .addPlayer': 'addPlayer'
   },
 
-  addPlayer: function () {
+  addPlayer: function (name, score) {
     var playerView = new PlayerView({template: $('#playerTemplate').html()});
     this.players.push(playerView);
     var newPlayerEl = playerView.render().el;
     this.$addPlayer.before(newPlayerEl);
-    playerView.$el.find('.name').focus();
+    // TODO perfect use case for a Backbone Model
+    if (name)
+      playerView.$el.find('.name').text(name);
+    else
+      playerView.$el.find('.name').focus();
+    if (score) {
+      playerView.$el.find('.score').text(score);
+    }
     if ($('.player').length > 8)
       this.$addPlayer.hide();
   },
@@ -109,7 +122,7 @@ var Scoreboard = Backbone.View.extend({
 ////////////////////
 
 var sb = new Scoreboard();
-sb.init();
+sb.init(JSON.parse(window.localStorage.getItem('scorewardenData')));
 $('#confirmClear').click(function () {
   sb.clearScores();
 });
