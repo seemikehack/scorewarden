@@ -1,3 +1,20 @@
+//////////////////////
+// HELPER FUNCTIONS //
+//////////////////////
+
+// Source:
+// http://stackoverflow.com/a/2117523 and
+// http://stackoverflow.com/a/8809472
+function generateUUID() {
+   var d = new Date().getTime();
+   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = (d + Math.random()*16)%16 | 0;
+      d = Math.floor(d/16);
+      return (c == 'x' ? r : (r&0x7|0x8)).toString(16);
+   });
+   return uuid;
+};
+
 /////////////////////
 // DATA STRUCTURES //
 /////////////////////
@@ -5,8 +22,12 @@
 var PlayerView = Backbone.View.extend({
   initialize: function(opts) {
     this.template = opts.template;
+    this.playerId = generateUUID();
+    // TODO set playerId as $el id
   },
+
   className: 'player panel panel-default',
+
   events: {
     'click .rankButton > button' : 'updateScore',
     'click .removePlayer' : 'removePlayer'
@@ -29,6 +50,14 @@ var PlayerView = Backbone.View.extend({
       $('#addPlayer').show();
   },
 
+  serialize: function (_sortOrder) {
+    return {
+      playerName: this.$el.find('.name').text(),
+      score: +this.$el.find('.score').text(),
+      sortOrder: _sortOrder
+    };
+  },
+
   render: function () {
     this.$el.html($(this.template));
     return this;
@@ -41,7 +70,7 @@ var Scoreboard = Backbone.View.extend({
     var addPlayerEl = new PlayerView({id: 'addPlayer', template: $('#addPlayerTemplate').html()}).render().el;
     this.$el.prepend(addPlayerEl);
     this.$addPlayer = $(addPlayerEl);
-    this.players = {};
+    this.players = [];
   },
 
   events: {
@@ -50,10 +79,9 @@ var Scoreboard = Backbone.View.extend({
 
   addPlayer: function () {
     var playerView = new PlayerView({template: $('#playerTemplate').html()});
-    this.players[playerView.playerId] = playerView;
+    this.players.push(playerView);
     var newPlayerEl = playerView.render().el;
     this.$addPlayer.before(newPlayerEl);
-    // $(newPlayerEl).find('.name').focus();
     playerView.$el.find('.name').focus();
     if ($('.player').length > 8)
       this.$addPlayer.hide();
@@ -67,6 +95,12 @@ var Scoreboard = Backbone.View.extend({
   reset: function () {
     this.$el.empty();
     this.init();
+    // TODO clear players
+  },
+
+  serialize: function () {
+    // TODO extend to support history
+    return JSON.stringify(this.players.map(function (v, i) { return v.serialize(i); }));
   }
 });
 
@@ -111,3 +145,10 @@ Mousetrap.bind('w', updateScore.bind('5up'));
 Mousetrap.bind('s', updateScore.bind('5dn'));
 Mousetrap.bind('e', updateScore.bind('20up'));
 Mousetrap.bind('d', updateScore.bind('20dn'));
+
+window.addEventListener('beforeunload', function () {
+  // HACK have to attempt to read the item before writing for the first time
+  // prolly a bug, see http://stackoverflow.com/a/13293187
+  window.localStorage.getItem('scorewardenData');
+  window.localStorage.setItem('scorewardenData', sb.serialize());
+});
